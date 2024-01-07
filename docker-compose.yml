@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  logs_db:
+    container_name: logs_db
+    image: postgres:14-alpine
+    volumes:
+      - ./docker-volumes/pgdata:/var/lib/postgresql/data:delegated
+    ports:
+      - "5432:5432"
+    env_file: .env.prod
+
+  logs_api:
+    container_name: logs_api
+    build:
+      context: .
+    volumes:
+      - ./docker-volumes/static:/app/static:delegated
+    ports:
+      - "8000:8000"
+    depends_on:
+      - logs_db
+    env_file: .env.prod
+
+  logs_nginx:
+    container_name: logs_nginx
+    build: ./nginx
+    volumes:
+      - ./docker-volumes/static:/static:delegated
+    ports:
+      - "80:80"
+    depends_on:
+      - logs_api
