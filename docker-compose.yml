@@ -22,13 +22,3 @@ services:
     depends_on:
       - logs_db
     env_file: prod.env
-
-  logs_nginx:
-    container_name: logs_nginx
-    build: ./nginx
-    volumes:
-      - ./docker-volumes/static:/static:delegated
-    ports:
-      - "80:80"
-    depends_on:
-      - logs_api
