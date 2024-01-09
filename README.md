@@ -20,11 +20,11 @@ python manage.py runserver
 
 ```bash
 # DB container envs
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=DB
-DB_PASSWORD='xxx'
-DB_NAME=logs_db
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=DB
+POSTGRES_PASSWORD='xxx'
+POSTGRES_NAME=logs_db
 
 # django container envs
 DJANGO_ENV=production

@@ -8,9 +8,11 @@ from rest_framework import status
 from django.db.models import Q
 from rest_framework.views import APIView
 import logging
+import csv
 from .filters import LogFilter
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +38,22 @@ class LogListCreateView(generics.ListCreateAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(query_set, many=True)
         return Response(serializer.data)
-    
+
+
+def download_logs(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="your_data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['id', 'timestamp', 'message', 'severity', 'source'])  # Add column headers
+
+    # Query your data from the database and write to CSV
+    queryset = SysLog.objects.all()
+    for obj in queryset:
+        writer.writerow([obj.id, obj.timestamp, obj.message, obj.severity, obj.source])  # Add other fields as needed
+
+    return response
+
 
 class LogDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = []

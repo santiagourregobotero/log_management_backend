@@ -7,5 +7,6 @@ services:
     volumes:
       - ./docker-volumes/pgdata:/var/lib/postgresql/data:delegated
     ports:
-      - "5432:5432"
-    env_file: .env
+      - "5433:5432"
+    env_file:
+      - prod.env

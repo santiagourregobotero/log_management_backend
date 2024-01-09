@@ -1,6 +1,6 @@
 from django.urls import path, include
 from users import views as UserView
-from syslogs.views import LogDetailView, LogListCreateView, LogAnalyticsView
+from syslogs.views import LogDetailView, LogListCreateView, LogAnalyticsView, download_logs
 
 urlpatterns = [
     path('auth/register', UserView.RegisterAPIView.as_view(), name='user-login'),
@@ -15,4 +15,6 @@ urlpatterns = [
     path('logs', LogListCreateView.as_view(), name='log-create'),
     path('logs/<int:pk>', LogDetailView.as_view(), name='log-detail'),
     path('logs/analytics', LogAnalyticsView.as_view(), name='log-analytics'),
+    path('logs/download', download_logs, name='download_logs'),
+
 ]
